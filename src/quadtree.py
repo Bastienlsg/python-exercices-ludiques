@@ -12,9 +12,17 @@ class QuadTree:
         self.__bd = bd
         self.__bg = bg
 
-    @property
     def depth(self) -> int:
-        return 1
+        if not isinstance(self.hg, QuadTree) and not isinstance(self.hd, QuadTree) \
+               and not isinstance(self.bd, QuadTree) and not isinstance(self.bg, QuadTree):
+            return 1
+        else:
+            depths = []
+            for child in [self.hg, self.hd, self.bd, self.bg]:
+                if isinstance(child, QuadTree):
+                    depths.append(child.depth())
+
+            return max(depths) + 1
 
     @staticmethod
     def from_file(filename: str) -> QuadTree:
