@@ -17,13 +17,13 @@ class QuadTree:
         return 1
 
     @staticmethod
-    def fromFile(filename: str) -> QuadTree:
+    def from_file(filename: str) -> QuadTree:
         with open(filename, 'r') as file:
             data = json.load(file)
-            return QuadTree.fromList(data)
+            return QuadTree.from_list(data)
 
     @staticmethod
-    def fromList(data: list) -> QuadTree:
+    def from_list(data: list) -> QuadTree:
         if len(data) != 4:
             raise ValueError("La liste de données doit contenir exactement 4 éléments.")
 
@@ -31,7 +31,7 @@ class QuadTree:
 
         match hg:
             case list():
-                hg = QuadTree.fromList(hg)
+                hg = QuadTree.from_list(hg)
             case 0:
                 hg = False
             case 1:
@@ -39,7 +39,7 @@ class QuadTree:
 
         match hd:
             case list():
-                hd = QuadTree.fromList(hd)
+                hd = QuadTree.from_list(hd)
             case 0:
                 hd = False
             case 1:
@@ -47,7 +47,7 @@ class QuadTree:
 
         match bd:
             case list():
-                bd = QuadTree.fromList(bd)
+                bd = QuadTree.from_list(bd)
             case 0:
                 bd = False
             case 1:
@@ -55,16 +55,13 @@ class QuadTree:
 
         match bg:
             case list():
-                bg = QuadTree.fromList(bg)
+                bg = QuadTree.from_list(bg)
             case 0:
                 bg = False
             case 1:
                 bg = True
 
         return QuadTree(hg, hd, bd, bg)
-
-    def __str__(self):
-        return f"QuadTree({self.__hg}, {self.__hd}, {self.__bd}, {self.__bg})"
 
     @property
     def hg(self):
