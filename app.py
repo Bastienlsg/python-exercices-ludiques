@@ -1,12 +1,27 @@
-from src.pygame_quadtree import PyGameQuadTree
+import os
+
 from src.quadtree import QuadTree
+from src.file_manager import FileManager
+from src.pygame_quadtree import PyGameQuadTree
 
 
 def main():
-    filename = "files/quadtree_smile.json"
-    quadtree = QuadTree.from_file(filename)
+    directory_path = "files/"
+
+    # Display available JSON files and get user choice
+    file_list = FileManager.display_available_json_files(directory_path)
+
+    if file_list is None:
+        return
+
+    choice = FileManager.get_valid_file_choice(file_list)
+    chosen_file = os.path.join(directory_path, file_list[choice - 1])
+
+    # Load quadtree and calculate depth
+    quadtree = QuadTree.from_file(chosen_file)
     quadtree_depth = quadtree.depth()
 
+    # Create and display the interface
     interface = PyGameQuadTree(quadtree, quadtree_depth)
     interface.display_all()
 
