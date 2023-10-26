@@ -3,7 +3,7 @@ from src.quadtree import QuadTree
 
 
 def main():
-    filename = "files/quadtree.txt"
+    filename = "files/quadtree_smile.json"
     quadtree = QuadTree.from_file(filename)
     quadtree_depth = quadtree.depth()
     interface = PyGameQuadTree(quadtree, quadtree_depth)
