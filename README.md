@@ -1,52 +1,43 @@
-# Exercices ludiques en python
+# PyGameQuadTree - Visualizing Quadtree Structures with Pygame
 
-Vous trouverez ici un ensemble d'exercices permettant de pratiquer python mais également découvrir quelques pans annexes de l'informatique en général.
-Ces exercices sont issus d'un livre réalisé par Pascal Lafourcade et Malika More.
+PyGameQuadTree is a Python class for visualizing quadtree structures using the Pygame library. This tool allows you to create a graphical representation of a quadtree, making it easier to understand and debug your quadtree-based algorithms. This README provides an overview of how to use PyGameQuadTree and its features.
 
-## Exercice : Arbre quaternaire
-Un quadtree ou arbre quaternaire (arbre Q) est une structure de données de type arbre dans laquelle chaque nœud a quatre fils. Les quadtrees sont le plus souvent utilisés pour partitionner un espace bidimensionnel en le subdivisant récursivement en quatre nœuds. 
-![img.png](files/quadtree.png)
+## Table of Contents
 
-Il existe plusieurs types de quadtree. Dans notre cas il s'agit d'un quadtree "region".
-Le quadtree «région» représente une partition de l'espace en deux dimensions en décomposant la région en quatre quadrants égaux, puis chaque quadrant en quatre sous-quadrants, et ainsi de suite, avec chaque «nœud terminal» comprenant des données correspondant à une sous-région spécifique. Chaque nœud de l'arbre a exactement : soit quatre enfants, soit aucun (cas d'un nœud terminal).
-Chaque `Noeud` comportant quatre éléments. Il s'agit d'une technique connue pour l'encodage d'images.  Pour simplifier, les images sont carrées, de couleur noir et blanc 
-et de côté 2^n.
+- [Installation](#installation)
+- [Usage](#usage)
 
-Un noeud à quatre fils est représenté : 
+## Installation
+
+1. Clone this repository.
+2. Make sure all dependencies are installed. You can install them via pip :
+
+   ```shell
+   pip install requirements.txt
+   ```
+
+## Usage
+
+### Creating a QuadTree
+
+To use PyGameQuadTree, you first need to create a QuadTree data structure. You can create a QuadTree using the `QuadTree` class provided in the example. A QuadTree is a hierarchical data structure that recursively divides space into four quadrants, representing a two-dimensional space partition.
+
+
 ```python
-from __future__ import annotations
+from pygame_quadtree import PyGameQuadTree
+from quadtree import QuadTree
 
-class QuadTree:
-    def __init(hg: bool|QuadTree, hd: bool|QuadTree, bg: bool|QuadTree, bd: bool|QuadTree):
-        pass
-    @property
-    def depth(self) -> int:
-        """ Recursion depth of the quadtree"""
-        return 1
-    @staticmethod
-    def fromFile(filename):
-        # Your code here
-        pass
-    @staticmethod
-    def fromList(data):
-        pass 
+def main():
+    filename = "quadtree.json"
+    quadtree = QuadTree.from_file(filename)
     
-    def paint(self):
-        """ Textual representation of the QuadTree"""
+    quadtree_depth = quadtree.depth()
+    
+    interface = PyGameQuadTree(quadtree, quadtree_depth)
+    interface.display_all()
 
-class TkQuadTree(QuadTree):
-    def paint(self):
-        """ TK representation of a Quadtree"""
+if __name__ == "__main__":
+    main()
 ```
 
-Assurez-vous que la lecture du fichier se passe sans encombre, en lançant les tests unitaires :
-```shell
-python -m pytest tests/test_quadtree.py -x
-```
-
-A partir du fichier `files/quadtree.txt`, générez le QuadTree associé. 
-Puis, réalisez une interface graphique en utilisant la classe `TkQuadTree`, permettant de la représenter. 
-
-Bonus : 
-Remplacez les valeurs binaires des feuilles par des valeurs numériques, combinez celà à un [tileset](https://docs.godotengine.org/en/stable/_images/using_tilesets_kenney_abstract_platformer_tile_sheet.webp). 
-Et voilà, vous avez généré votre tilemap par le biais d'un quadtree.
+In this example, make sure to replace `"quadtree_data.json"` with the path to your quadtree data file. The `QuadTree` class provided in the example can load quadtree data from a JSON file and create a quadtree structure.
