@@ -1,23 +1,45 @@
+import unittest
 from src.quadtree import QuadTree
 
 
-def test_sample():
-    # Test function for a sample quadtree JSON file
-    filename = "../files/quadtree.json"
+class TestQuadTree(unittest.TestCase):
 
-    # Create a QuadTree instance from the JSON file
-    q = QuadTree.from_file(filename)
+    def test_depth_single_level(self):
+        # Test the depth when the QuadTree has one level of nodes
+        quadtree = QuadTree(True, False, True, False)
+        self.assertEqual(quadtree.depth(), 1)
 
-    # Check if the depth of the quadtree matches the expected depth (4)
-    assert q.depth() == 4
+    def test_depth_three_level(self):
+        # Test the depth when the QuadTree has three level of nodes
+        quadtree = QuadTree(False,
+                            QuadTree(False,
+                                     QuadTree(True, True, False, True),
+                                     True, True),
+                            False, True)
+        self.assertEqual(quadtree.depth(), 3)
+
+    def test_from_file(self):
+        # Test creating a QuadTree from a JSON file
+        quadtree = QuadTree.from_file('../files/quadtree.json')
+        self.assertEqual(quadtree.depth(), 4)
+
+    def test_from_list(self):
+        # Test creating a QuadTree from a list of data
+        data = [
+                   [0,0,0,[0,1,0,0]],
+                   [0,0,[1,0,0,0],0],
+                   [0,0,0,[[0,0,1,1],[0,1,0,1],0,0]],
+                   [0,0,[[1,0,1,0],[0,0,1,1],0,0],0]
+                ]
+        quadtree = QuadTree.from_list(data)
+        self.assertEqual(quadtree.depth(), 4)
+
+    def test_invalid_list_length(self):
+        # Test creating a QuadTree from an invalid list length
+        data = [0, 1, 0]
+        with self.assertRaises(ValueError):
+            QuadTree.from_list(data)
 
 
-def test_single():
-    # Test function for a simple quadtree JSON file
-    filename = "../files/quadtree_easy.json"
-
-    # Create a QuadTree instance from the JSON file
-    q = QuadTree.from_file(filename)
-
-    # Check if the depth of the quadtree matches the expected depth (1)
-    assert q.depth() == 1
+if __name__ == '__main__':
+    unittest.main()
