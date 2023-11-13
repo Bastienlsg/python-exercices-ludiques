@@ -43,7 +43,7 @@ class QuadTree:
             int: The depth of the quadtree.
         """
         if not isinstance(self.hg, QuadTree) and not isinstance(self.hd, QuadTree) \
-               and not isinstance(self.bd, QuadTree) and not isinstance(self.bg, QuadTree):
+                and not isinstance(self.bd, QuadTree) and not isinstance(self.bg, QuadTree):
             return 1
         else:
             depths = []
@@ -82,42 +82,14 @@ class QuadTree:
         if len(data) != 4:
             raise ValueError("La liste de données doit contenir exactement 4 éléments.")
 
-        hg, hd, bd, bg = data
+        nodes = []
+        for element in data:
+            if isinstance(element, list):
+                nodes.append(QuadTree.from_list(element))
+            else:
+                nodes.append(bool(element))
 
-        match hg:
-            case list():
-                hg = QuadTree.from_list(hg)
-            case 0:
-                hg = False
-            case 1:
-                hg = True
-
-        match hd:
-            case list():
-                hd = QuadTree.from_list(hd)
-            case 0:
-                hd = False
-            case 1:
-                hd = True
-
-        match bd:
-            case list():
-                bd = QuadTree.from_list(bd)
-            case 0:
-                bd = False
-            case 1:
-                bd = True
-
-        match bg:
-            case list():
-                bg = QuadTree.from_list(bg)
-            case 0:
-                bg = False
-            case 1:
-                bg = True
-
-        return QuadTree(hg, hd, bd, bg)
-
+        return QuadTree(*nodes)
 
     @property
     def hg(self):
