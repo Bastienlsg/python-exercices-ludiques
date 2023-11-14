@@ -1,14 +1,14 @@
 import pygame
+from src.quadtree import QuadTree
 
 
-class PyGameQuadTree:
+class PyGameQuadTree(QuadTree):
     """
     PyGameQuadTree is a class for visualizing a quadtree structure using Pygame.
 
     Args:
         quadtree: The root node of the quadtree to be displayed.
-        quadtree_depth: The depth of the quadtree.
-        screen_size: The size of the Pygame display window (default is 400x400).
+        screen_size: The size of the Pygame display window (default is 750x750).
 
     Methods:
         - display_all(): Initializes and displays the quadtree and its depth.
@@ -16,17 +16,15 @@ class PyGameQuadTree:
         - display_depth(): Displays the depth of the quadtree.
     """
 
-    def __init__(self, quadtree, quadtree_depth, screen_size=(750, 750)):
+    def __init__(self, quadtree, screen_size=(750, 750)):
         """
         Initialize the PyGameQuadTree.
 
         Args:
             quadtree: The quadtree to be displayed.
-            quadtree_depth: The depth of the quadtree.
-            screen_size: The size of the Pygame display window (default is 400x400).
+            screen_size: The size of the Pygame display window (default is 750x750).
         """
-        self.__quadtree = quadtree
-        self.__quadtree_depth = quadtree_depth
+        super().__init__(quadtree.hg, quadtree.hd, quadtree.bd, quadtree.bg)
         self.__screen_size = screen_size
         self.__screen = pygame.display.set_mode(screen_size)
         self.__node_size = (screen_size[0] / 2, screen_size[1] / 2)
@@ -37,7 +35,7 @@ class PyGameQuadTree:
         Initializes Pygame and displays the quadtree.
         """
         pygame.init()
-        self.display_quadtree(self.__quadtree, 0, 0, *self.__screen_size)
+        self.display_quadtree(self, 0, 0, *self.__screen_size)
         self.display_depth()
         pygame.display.flip()
 
@@ -54,7 +52,7 @@ class PyGameQuadTree:
         Recursively displays the quadtree nodes and leaves.
 
         Args:
-            node: The quadtree.
+            node: The quadtree node (QuadTree or bool).
             x: The x-coordinate of the node's position.
             y: The y-coordinate of the node's position.
             width: The width of the node's bounding box.
@@ -75,8 +73,9 @@ class PyGameQuadTree:
         """
         Displays the depth of the quadtree on the Pygame page.
         """
+
         font = pygame.font.Font('freesansbold.ttf', 32)
-        text = font.render(f"profondeur: {self.__quadtree_depth}", True, "red")
+        text = font.render(f"profondeur: {self.depth()}", True, "red")
 
         text_rect = text.get_rect()
         text_rect.center = (self.__screen_size[0] / 2, 20)

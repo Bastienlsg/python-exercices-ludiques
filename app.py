@@ -17,12 +17,11 @@ def main():
     choice = FileManager.get_valid_file_choice(file_list)
     chosen_file = os.path.join(directory_path, file_list[choice - 1])
 
-    # Load quadtree and calculate depth
+    # Load quadtree
     quadtree = QuadTree.from_file(chosen_file)
-    quadtree_depth = quadtree.depth()
 
     # Create and display the interface
-    interface = PyGameQuadTree(quadtree, quadtree_depth)
+    interface = PyGameQuadTree(quadtree)
     interface.display_all()
 
 
